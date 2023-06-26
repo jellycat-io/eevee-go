@@ -1,5 +1,7 @@
 package token
 
+import "strings"
+
 type TokenType string
 
 type Token struct {
@@ -19,6 +21,10 @@ func LookupIdent(ident string) TokenType {
 	return IDENT
 }
 
+func IsFloat(n string) bool {
+	return strings.Contains(n, ".")
+}
+
 const (
 	ILLEGAL = "ILLEGAL"
 	EOF     = "EOF"
@@ -26,6 +32,7 @@ const (
 	// Identifiers + literals
 	IDENT = "IDENT"
 	INT   = "INT"
+	FLOAT = "FLOAT"
 
 	// Operators
 	ASSIGN = "="

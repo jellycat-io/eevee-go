@@ -30,7 +30,7 @@ func TestNextToken(t *testing.T) {
 		{token.LET, "let"},
 		{token.IDENT, "ten"},
 		{token.ASSIGN, "="},
-		{token.INT, "10.5"},
+		{token.FLOAT, "10.5"},
 		{token.SEMI, ";"},
 		{token.LET, "let"},
 		{token.IDENT, "add"},
