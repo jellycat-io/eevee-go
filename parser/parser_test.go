@@ -161,7 +161,7 @@ func TestFloatLiteralExpression(t *testing.T) {
 		t.Fatalf("exp not *ast.FloatLiteral. got=%T", stmt.Expression)
 	}
 	if literal.Value != 3.14 {
-		t.Errorf("literal.Value not %.2f. got=%.2f", 3.14, literal.Value)
+		t.Errorf("literal.Value not %v. got=%v", 3.14, literal.Value)
 	}
 	if literal.TokenLiteral() != "3.14" {
 		t.Errorf("literal.TokenLiteral not %s. got=%s", "3.14",
