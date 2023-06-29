@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/jellycat-io/eevee/evaluator"
 	"github.com/jellycat-io/eevee/lexer"
 	"github.com/jellycat-io/eevee/parser"
-	"github.com/jellycat-io/eevee/token"
 )
 
 const PROMPT = ">> "
@@ -32,11 +32,11 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		io.WriteString(out, program.String())
-		io.WriteString(out, "\n")
+		evaluated := evaluator.Eval(program)
 
-		for tok := l.NextToken(); tok.Type != token.EOF; tok = l.NextToken() {
-			fmt.Fprintf(out, "%+v\n", tok)
+		if evaluated != nil {
+			io.WriteString(out, evaluated.Inspect())
+			io.WriteString(out, "\n")
 		}
 	}
 }
