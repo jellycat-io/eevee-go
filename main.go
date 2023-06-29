@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/user"
 
+	"github.com/TwiN/go-color"
 	"github.com/jellycat-io/eevee/repl"
 )
 
@@ -13,8 +14,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Print(EEVEE_ART)
-	fmt.Printf("\nHello %s! Welcome to Eevee!\n", user.Username)
+	fmt.Print(color.InBlue(EEVEE_ART))
+	fmt.Print(color.InBold(color.InBlue(fmt.Sprintf("\nEevee REPL 0.1.0 - Welcome %s\n", user.Username))))
 	repl.Start(os.Stdin, os.Stdout)
 }
 
