@@ -15,6 +15,8 @@ func TestEvalIntegerExpression(t *testing.T) {
 	}{
 		{"5", 5},
 		{"1664", 1664},
+		{"-5", -5},
+		{"-1664", -1664},
 	}
 
 	for _, tt := range tests {
@@ -30,6 +32,8 @@ func TestEvalFloatExpression(t *testing.T) {
 	}{
 		{"3.14", 3.14},
 		{"19.99", 19.99},
+		{"-3.14", -3.14},
+		{"-19.99", -19.99},
 	}
 
 	for _, tt := range tests {
