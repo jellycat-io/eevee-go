@@ -56,6 +56,7 @@ const (
 	// Delimiters
 	COMMA = ","
 	SEMI  = ";"
+	COLON = ":"
 
 	LPAREN   = "("
 	RPAREN   = ")"
@@ -66,6 +67,7 @@ const (
 
 	// Keywords
 	FUNCTION = "FUNCTION"
+	MODULE   = "MODULE"
 	LET      = "LET"
 	TRUE     = "TRUE"
 	FALSE    = "FALSE"
