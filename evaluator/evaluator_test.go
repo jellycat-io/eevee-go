@@ -337,11 +337,34 @@ func TestBuiltInFunctions(t *testing.T) {
 		input    string
 		expected interface{}
 	}{
+		// len()
 		{`len("")`, 0},
 		{`len("four")`, 4},
 		{`len("hello world")`, 11},
 		{`len(1)`, "argument to `len` not supported, got INTEGER"},
 		{`len("one", "two")`, "wrong number of arguments. want=1, got=2"},
+		{`len([1, 2, 3])`, 3},
+		{`len([])`, 0},
+		{`let myArray = [1, 2]; len(myArray);`, 2},
+		// first()
+		{`first([3.14, 2, 3])`, 3.14},
+		{`first([])`, nil},
+		{`first([-1])`, -1},
+		{`let myArray = [1, 2]; first(myArray);`, 1},
+		// last()
+		{`last([1, 2, 3])`, 3},
+		{`last([])`, nil},
+		{`last([-1])`, -1},
+		{`let myArray = [1, 2]; last(myArray);`, 2},
+		// tail()
+		{`tail([1, 2, 3])`, []int{2, 3}},
+		{`tail([])`, nil},
+		{`tail([-1])`, []int{}},
+		{`let myArray = [1, 2]; tail(myArray);`, []int{2}},
+		{`let myArray = [1, 2, 3]; tail(tail(myArray));`, []int{3}},
+		// push()
+		{`let arr = push([1, 2], 3); arr`, []int{1, 2, 3}},
+		{`let arr_one = [1, 2, 3]; let arr_two = push(arr_one, 4); arr_two;`, []int{1, 2, 3, 4}},
 	}
 
 	for _, tt := range tests {
@@ -350,6 +373,8 @@ func TestBuiltInFunctions(t *testing.T) {
 		switch expected := tt.expected.(type) {
 		case int:
 			testIntegerObject(t, evaluated, int64(expected))
+		case float64:
+			testFloatObject(t, evaluated, expected)
 		case string:
 			errObj, ok := evaluated.(*object.Error)
 			if !ok {
@@ -358,6 +383,17 @@ func TestBuiltInFunctions(t *testing.T) {
 			}
 			if errObj.Message != expected {
 				t.Errorf("wrong error message. expected=%q, got=%q", expected, errObj.Message)
+			}
+		case nil:
+			testNullObject(t, evaluated)
+		case []int:
+			arrObj, ok := evaluated.(*object.Array)
+			if !ok {
+				t.Errorf("object is not Array. got=%T (%+v)", evaluated, evaluated)
+				continue
+			}
+			for i, e := range arrObj.Elements {
+				testIntegerObject(t, e, int64(expected[i]))
 			}
 		}
 	}
