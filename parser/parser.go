@@ -127,6 +127,10 @@ func (p *Parser) parseStatement() ast.Statement {
 		return p.parseLetStatement()
 	case token.RETURN:
 		return p.parseReturnStatement()
+	case token.MODULE:
+		return p.parseModuleStatement()
+	case token.IMPORT:
+		return p.parseImportStatement()
 	default:
 		return p.parseExpressionStatement()
 	}
@@ -197,6 +201,38 @@ func (p *Parser) parseBlockStatement() *ast.BlockStatement {
 	}
 
 	return block
+}
+
+func (p *Parser) parseModuleStatement() *ast.ModuleStatement {
+	mod := &ast.ModuleStatement{Token: p.curToken}
+
+	if !p.expectPeek(token.IDENT) {
+		return nil
+	}
+
+	mod.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+
+	p.nextToken()
+
+	mod.Body = p.parseBlockStatement()
+
+	return mod
+}
+
+func (p *Parser) parseImportStatement() *ast.ImportStatement {
+	imp := &ast.ImportStatement{Token: p.curToken}
+
+	if !p.expectPeek(token.IDENT) {
+		return nil
+	}
+
+	imp.Module = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+
+	if !p.expectPeek(token.SEMI) {
+		return nil
+	}
+
+	return imp
 }
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {

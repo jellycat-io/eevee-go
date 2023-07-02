@@ -11,6 +11,8 @@ type Token struct {
 
 var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
+	"module": MODULE,
+	"import": IMPORT,
 	"let":    LET,
 	"true":   TRUE,
 	"false":  FALSE,
@@ -68,6 +70,7 @@ const (
 	// Keywords
 	FUNCTION = "FUNCTION"
 	MODULE   = "MODULE"
+	IMPORT   = "IMPORT"
 	LET      = "LET"
 	TRUE     = "TRUE"
 	FALSE    = "FALSE"

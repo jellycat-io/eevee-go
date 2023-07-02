@@ -119,6 +119,42 @@ func (bs *BlockStatement) String() string {
 	return out.String()
 }
 
+type ModuleStatement struct {
+	Token token.Token
+	Name  *Identifier
+	Body  *BlockStatement
+}
+
+func (ms *ModuleStatement) statementNode()       {}
+func (ms *ModuleStatement) TokenLiteral() string { return ms.Token.Literal }
+func (ms *ModuleStatement) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("module ")
+	out.WriteString(ms.Name.String())
+	out.WriteString(" ")
+	out.WriteString(ms.Body.String())
+
+	return out.String()
+}
+
+type ImportStatement struct {
+	Token  token.Token
+	Module *Identifier
+}
+
+func (is *ImportStatement) statementNode()       {}
+func (is *ImportStatement) TokenLiteral() string { return is.Token.Literal }
+func (is *ImportStatement) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("import ")
+	out.WriteString(is.Module.String())
+	out.WriteString(";")
+
+	return out.String()
+}
+
 type Identifier struct {
 	Token token.Token // The token.IDENT token
 	Value string
